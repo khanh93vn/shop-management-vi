@@ -1,3 +1,7 @@
+"""
+source: https://techvidvan.com/tutorials/shop-management-system-in-python/
+"""
+
 from tkinter import *
 from tkinter import ttk
 from tkcalendar import DateEntry
