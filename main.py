@@ -5,6 +5,7 @@ import tkinter as tk
 from tkinter import ttk
 
 from billing import BuyingTab, SellingTab
+# from products import ProductManagementTab
 from utils import *
 
 if __name__ == "__main__":
@@ -21,5 +22,6 @@ if __name__ == "__main__":
     root_buy = BuyingTab(tabs)
     tabs.add(root_sell, text ="Bán hàng")
     tabs.add(root_buy, text ="Nhập hàng")
+    # root_products = ProductManagementTab(tabs)
     tabs.pack(expand = 1, fill ="both")
     window.mainloop()

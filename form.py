@@ -5,8 +5,8 @@ from tkinter import ttk
 from utils import *
 
 class Textbox(tk.Text):
-    def get(self):
-        super().get("1.0", "end-1c")
+    def get(self, index1=1.0, index2=tk.END):
+        return super().get(index1, index2)
 
 class Date(DateEntry):
     pass

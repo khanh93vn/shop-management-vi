@@ -1,0 +1,3 @@
+"""
+Handle products management
+"""

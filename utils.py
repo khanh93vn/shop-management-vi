@@ -27,10 +27,14 @@ dtformat = "%d/%m/%Y"
 def today():
     return date.today().strftime(dtformat)
 
-def datestr2int(s):
+def date2ts(s):
+    if s == '--':
+        return 0
     return int((mktime(datetime.strptime(s, dtformat).timetuple()) + 25200) / 86400)
 
-def int2datestr(ts):
+def ts2date(ts):
+    if ts == 0:
+        return '--'
     return datetime.utcfromtimestamp(ts*86400 + 18000).strftime(dtformat)
 
 # datatype conversion from strings
