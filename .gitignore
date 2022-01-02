@@ -152,4 +152,7 @@ cython_debug/
 #.idea/
 
 # database
-data.db
+*.db
+
+# powershell scripts
+*.ps1

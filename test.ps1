@@ -1,1 +1,0 @@
-py.test D:\khanh\PythonProjects\shop\tests
