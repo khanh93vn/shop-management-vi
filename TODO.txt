@@ -1,9 +1,9 @@
 - Hoàn thành phần nhập hóa đơn
 	- Lưu backup và cập nhật CSDL bằng file excel
-	- Nhập github
-	- Thêm tab bán hàng
-		- Cập nhật đơn giá bán
 	- Hiển thị số lượng trong kho
+	- Thêm tab bán hàng
+		- 
+		- Cập nhật đơn giá bán
 	- Search tên hàng
 	- age update interrupts
 - Cơ sở dũ liệu và lưu trữ (sắp xếp dựa vào cột x)

@@ -1,3 +1,9 @@
+"""
+Handle stock import export interfaces and workings.
+
+BaseBillingTab: base object for billing operations (selling and buying)
+"""
+
 import tkinter as tk
 import sqlite3 as db
 from tkinter import ttk
@@ -32,31 +38,13 @@ class BaseBillingTab(ttk.Frame):
         self.checkout_button = tk.Button(self, command=self.checkout, text="Thanh toán", font=DEFAULT_FONT)
         self.checkout_button.place(relx=0.51, rely=0.89, relheight=0.09, relwidth=0.48)
         
-        # Định nghĩa callback cho mục điền sản phẩm
-        def callback_fill_product(key, var):
-            # kết nối với CSDL
-            conn = db.connect(DATABASE)
-            c = conn.cursor()
-            c.execute(f"SELECT * FROM products WHERE {key} = (?)", (var.get(),))
-            try:
-                product_id, product_name, unit, price, note = c.fetchone()
-                self.add_item_form.id.set(product_id)
-                self.add_item_form.name.set(product_name)
-                self.add_item_form.unit.set(unit)
-            except TypeError as e:
-                if "NoneType object" not in str(e):
-                    raise e
-            conn.close()
-        
-        # Tạo danh sách tên sản phẩm và gắn callback cho mục tự động điền thông tin sản phẩm
-        self.update_products()
-        self.add_item_form.id.trace_add("write", lambda var, index, mode: callback_fill_product("id", self.add_item_form.id))
-        self.add_item_form.nameE.bind("<<ComboboxSelected>>",
-                                      lambda event: callback_fill_product("name", self.add_item_form.name))
-        
         # Tạo danh sách tên nhà cung cấp/khách hàng và gắn callback cho mục tự động điền thông tin
         self.update_partners()
         self.bind_partner_autofill_callback()
+        
+        # Tạo danh sách tên sản phẩm và gắn callback cho mục tự động điền thông tin sản phẩm
+        self.update_products()
+        self.bind_product_autofill_callback()
         
     
     def product_check(self):
@@ -130,7 +118,7 @@ class BaseBillingTab(ttk.Frame):
         # nhập các mặt hàng có trong hóa đơn
         for product_id, product_name, unit, price, quantity, exp_date, discount, vat in batches:
             # cập nhật giá
-            buying_price = price*(1 - discount*.01)*(1.1 if vat else 1.0)
+            price = price*(1 - discount*.01)*(1.1 if vat else 1.0)
             
             # cập nhật hạn sử dụng (quy ước 0 cho sản phẩm không có hạn sử dụng hoặc đã quá hạn sử dụng)
             exp_ts = datestr2int(exp_date)
@@ -139,12 +127,13 @@ class BaseBillingTab(ttk.Frame):
                 
             c.execute("""INSERT INTO batches (bill_id, product_id, expiration_date, quantity, price)
                          VALUES (?, ?, ?, ?, ?)""",
-                      (bill_id, product_id, exp_ts, quantity, buying_price))
+                      (bill_id, product_id, exp_ts, quantity, price))
         
             # Cập nhật kho hàng
-            ret = create_if_not_exists(c, table="stock", searchby=("product_id", "expiration_date", "price"),
-                                       valuesdict={"product_id": product_id, "expiration_date": exp_ts,
-                                                   "price": buying_price, "quantity": 0})
+            ret = create_if_not_exists(c, table="stock", searchby=("product_id", "expiration_date"),
+                                       valuesdict={"product_id": product_id,
+                                                   "expiration_date": exp_ts,
+                                                   "quantity": 0})
             if ret is None:
                 raise SystemError("lỗi đọc dữ liệu kho hàng")
             product_id, expiration_date, price, stock = ret
@@ -160,8 +149,8 @@ class BaseBillingTab(ttk.Frame):
             
             # cập nhật dữ liệu
             c.execute("""UPDATE stock SET quantity = (?)
-                         WHERE (product_id, expiration_date, price) = (?, ?, ?)""",
-                      (new_stock, product_id, exp_ts, buying_price))
+                         WHERE (product_id, expiration_date) = (?, ?)""",
+                      (new_stock, product_id, exp_ts))
         
         # lưu lại nếu không có vấn đề
         conn.commit()
@@ -175,6 +164,8 @@ class BaseBillingTab(ttk.Frame):
         # xóa danh sách hàng hiện tại
         self.item_view.clear_items()
         
+        self.update_products()
+        
     def add_item(self):
         ret = self.product_check()
         if ret is not None:
@@ -185,15 +176,35 @@ class BaseBillingTab(ttk.Frame):
         if ret is not None:
             self.item_view.replace_item(ret)
     
+    def update_partners(self):
+        raise NotImplementedError
+    
     def update_products(self):
         product_names = get_names_from_table("products")
         self.add_item_form.nameE["values"] = product_names
     
-    def update_partners(self):
-        raise NotImplementedError
-    
     def bind_partner_autofill_callback(self):
         raise NotImplementedError
+    
+    def bind_product_autofill_callback(self):
+        def callback_fill_product(key, var):
+            # kết nối với CSDL
+            conn = db.connect(DATABASE)
+            c = conn.cursor()
+            c.execute(f"SELECT * FROM products WHERE {key} = (?)", (var.get(),))
+            try:
+                product_id, product_name, unit, price, note = c.fetchone()
+                self.add_item_form.id.set(product_id)
+                self.add_item_form.name.set(product_name)
+                self.add_item_form.unit.set(unit)
+                self.add_item_form.price.set(price)
+            except TypeError as e:
+                if "NoneType object" not in str(e):
+                    raise e
+            conn.close()
+        self.add_item_form.id.trace_add("write", lambda var, index, mode: callback_fill_product("id", self.add_item_form.id))
+        self.add_item_form.nameE.bind("<<ComboboxSelected>>",
+                                      lambda event: callback_fill_product("name", self.add_item_form.name))
 
 
 # frame thông tin đơn hàng (bán)
@@ -377,7 +388,28 @@ class BuyingTab(BaseBillingTab):
             
             conn.close()
         self.info_form.providerE.bind("<<ComboboxSelected>>", fill_provider)
-
+    """
+    def bind_product_autofill_callback(self):
+        # Định nghĩa callback cho mục điền sản phẩm
+        def callback_fill_product(key, var):
+            # kết nối với CSDL
+            conn = db.connect(DATABASE)
+            c = conn.cursor()
+            c.execute(f"SELECT * FROM products WHERE {key} = (?)", (var.get(),))
+            try:
+                product_id, product_name, unit, price, note = c.fetchone()
+                self.add_item_form.id.set(product_id)
+                self.add_item_form.name.set(product_name)
+                self.add_item_form.unit.set(unit)
+                self.add_item_form.price.set(price)
+            except TypeError as e:
+                if "NoneType object" not in str(e):
+                    raise e
+            conn.close()
+        self.add_item_form.id.trace_add("write", lambda var, index, mode: callback_fill_product("id", self.add_item_form.id))
+        self.add_item_form.nameE.bind("<<ComboboxSelected>>",
+                                      lambda event: callback_fill_product("name", self.add_item_form.name))
+    """
 
 # tab bán hàng
 class SellingTab(BaseBillingTab):

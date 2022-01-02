@@ -57,10 +57,9 @@ if __name__ == "__main__":
         # tạo bảng kho (cập nhật liên tục)
         c.execute("""CREATE TABLE stock (
                 product_id INTEGER,
-                expiration_date INTEGER,
-                price REAL,
+                expiration_date INTEGER,  
                 quantity INTEGER,
-                PRIMARY KEY (product_id, expiration_date, price)
+                PRIMARY KEY (product_id, expiration_date)
             )""")
     except db.OperationalError as e:
         if "table" in str(e) and "already exists" in str(e):
