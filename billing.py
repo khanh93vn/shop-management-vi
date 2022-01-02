@@ -197,7 +197,6 @@ class BaseBillingTab(ttk.Frame):
                 self.add_item_form.id.set(product_id)
                 self.add_item_form.name.set(product_name)
                 self.add_item_form.unit.set(unit)
-                self.add_item_form.price.set(price)
             except TypeError as e:
                 if "NoneType object" not in str(e):
                     raise e
@@ -388,28 +387,7 @@ class BuyingTab(BaseBillingTab):
             
             conn.close()
         self.info_form.providerE.bind("<<ComboboxSelected>>", fill_provider)
-    """
-    def bind_product_autofill_callback(self):
-        # Định nghĩa callback cho mục điền sản phẩm
-        def callback_fill_product(key, var):
-            # kết nối với CSDL
-            conn = db.connect(DATABASE)
-            c = conn.cursor()
-            c.execute(f"SELECT * FROM products WHERE {key} = (?)", (var.get(),))
-            try:
-                product_id, product_name, unit, price, note = c.fetchone()
-                self.add_item_form.id.set(product_id)
-                self.add_item_form.name.set(product_name)
-                self.add_item_form.unit.set(unit)
-                self.add_item_form.price.set(price)
-            except TypeError as e:
-                if "NoneType object" not in str(e):
-                    raise e
-            conn.close()
-        self.add_item_form.id.trace_add("write", lambda var, index, mode: callback_fill_product("id", self.add_item_form.id))
-        self.add_item_form.nameE.bind("<<ComboboxSelected>>",
-                                      lambda event: callback_fill_product("name", self.add_item_form.name))
-    """
+
 
 # tab bán hàng
 class SellingTab(BaseBillingTab):
@@ -448,7 +426,11 @@ class SellingTab(BaseBillingTab):
     def update_partners(self):
         customer_names = get_names_from_table("customers")
         self.info_form.customerE["values"] = customer_names
-    
+    """
+    def update_products(self):
+        customer_names = get_names_from_table("customers")
+        self.info_form.customerE["values"] = customer_names
+    """
     def bind_partner_autofill_callback(self):
         def fill_customer(event):
             # kết nối với CSDL
@@ -466,7 +448,28 @@ class SellingTab(BaseBillingTab):
             
             conn.close()
         self.info_form.customerE.bind("<<ComboboxSelected>>", fill_customer)
-
+    """
+    def bind_product_autofill_callback(self):
+        # Định nghĩa callback cho mục điền sản phẩm
+        def callback_fill_product(key, var):
+            # kết nối với CSDL
+            conn = db.connect(DATABASE)
+            c = conn.cursor()
+            c.execute(f"SELECT * FROM products WHERE {key} = (?)", (var.get(),))
+            try:
+                product_id, product_name, unit, price, note = c.fetchone()
+                self.add_item_form.id.set(product_id)
+                self.add_item_form.name.set(product_name)
+                self.add_item_form.unit.set(unit)
+                self.add_item_form.price.set(price)
+            except TypeError as e:
+                if "NoneType object" not in str(e):
+                    raise e
+            conn.close()
+        self.add_item_form.id.trace_add("write", lambda var, index, mode: callback_fill_product("id", self.add_item_form.id))
+        self.add_item_form.nameE.bind("<<ComboboxSelected>>",
+                                      lambda event: callback_fill_product("name", self.add_item_form.name))
+"""
 
 # các chương trình con
 def create_if_not_exists(cursor, table, searchby, valuesdict, prompt=None): # prompt = (tên dữ liệu, tên tác vụ)
