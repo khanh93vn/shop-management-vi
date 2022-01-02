@@ -136,7 +136,7 @@ class BaseBillingTab(ttk.Frame):
                                                    "quantity": 0})
             if ret is None:
                 raise SystemError("lỗi đọc dữ liệu kho hàng")
-            product_id, expiration_date, price, stock = ret
+            product_id, expiration_date, stock = ret
             
             if not self.is_selling:
                 new_stock = stock + quantity
