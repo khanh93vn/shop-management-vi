@@ -2,7 +2,7 @@
 	- Lưu backup và cập nhật CSDL bằng file excel
 	- Hiển thị số lượng trong kho
 	- Thêm tab bán hàng
-		- 
+		- Hiển thị batch thay vì hiển thị sản phẩm trong mục chọn tên sp
 		- Cập nhật đơn giá bán
 	- Search tên hàng
 	- age update interrupts
