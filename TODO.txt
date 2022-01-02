@@ -1,10 +1,10 @@
 - Hoàn thành phần nhập hóa đơn
-	- Lưu backup và cập nhật CSDL bằng file excel
-	- Hiển thị số lượng trong kho
 	- Thêm tab bán hàng
 		- Hiển thị batch thay vì hiển thị sản phẩm trong mục chọn tên sp
 		- Cập nhật đơn giá bán
+	- Hiển thị số lượng trong kho
 	- Search tên hàng
+	- Thêm tab tra cứu CSDL và cập nhật CSDL bằng file excel
 	- age update interrupts
 - Cơ sở dũ liệu và lưu trữ (sắp xếp dựa vào cột x)
 	- Bảng danh mục hàng (cập nhật khi có yêu cầu)
