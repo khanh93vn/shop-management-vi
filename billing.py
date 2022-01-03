@@ -432,13 +432,13 @@ class SellingTab(BaseBillingTab):
         c = conn.cursor()
         
         # Lất dữ liệu tên, hạn sd, số lượng tồn kho
-        c.execute("""SELECT products.name, stock.expiration_date, stock.quantity FROM stock
+        c.execute("""SELECT products.name, products.unit, stock.expiration_date, stock.quantity FROM stock
                      JOIN products on products.id = stock.product_id
                      WHERE products.name LIKE ?
                      ORDER BY products.name, stock.expiration_date""",
                   (self.add_item_form.name.get().split('|')[0] + '%',))
-        stock_list = [f"{name}|Kho: {quantity}|HSD: {ts2date(exp_ts)}"
-                      for name, exp_ts, quantity in c.fetchall()]
+        stock_list = [f"{name}|Kho: {quantity} {unit}|HSD: {ts2date(exp_ts)}"
+                      for name, unit, exp_ts, quantity in c.fetchall()]
         
         conn.close()
         
@@ -474,6 +474,7 @@ class SellingTab(BaseBillingTab):
                 self.add_item_form.id.set(product_id)
                 self.add_item_form.name.set(product_name)
                 self.add_item_form.unit.set(unit)
+                self.add_item_form.price.set(price)
             except TypeError as e:
                 if "NoneType object" not in str(e):
                     raise e
