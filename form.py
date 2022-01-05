@@ -8,6 +8,10 @@ class Textbox(tk.Text):
     def get(self, index1=1.0, index2=tk.END):
         return super().get(index1, index2)
 
+    def set(self, txt):
+        self.delete(1.0, tk.END)
+        self.insert(1.0, txt)
+
 class Date(DateEntry):
     pass
 
@@ -77,4 +81,7 @@ class Form(ttk.LabelFrame):
     
     def get_data(self):
         return tuple(getattr(self, name).get() for name, *_ in self.fields)
-
+    
+    def set_data(self, data):
+        for datum, (name, *_) in zip(data, self.fields):
+            getattr(self, name).set(datum)

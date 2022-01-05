@@ -1,10 +1,12 @@
+- Thêm tab tra cứu CSDL và cập nhật CSDL bằng file excel
+	- Tạo class DataView
+		- Các trường dữ liệu của bảng
+		- Thêm các trường dữ liệu của bảng khác nếu cần
+		- Cho phép chỉnh sửa
+		- Có thể cho phép thêm (tùy bảng)
 - Hoàn thành phần nhập hóa đơn
-	- Tra cứu barcode
-		https://cloudmersive-medium-com.translate.goog/how-to-lookup-a-barcode-value-and-return-product-data-in-python-de8e59c0bab8?_x_tr_sl=vi&_x_tr_tl=en&_x_tr_hl=vi
 	- Thêm tab bán hàng
 		- Cập nhật đơn giá bán
-	- Thêm tab tra cứu CSDL và cập nhật CSDL bằng file excel
-	- age update interrupts
 - Cơ sở dũ liệu và lưu trữ (sắp xếp dựa vào cột x)
 	- Bảng danh mục hàng (cập nhật khi có yêu cầu)
 		x Mã số
@@ -40,3 +42,5 @@
 		x Ngày hết hạn sử dựng
 		x Đơn giá mua (?)
 		- Số lượng
+
+- Age update interrupts

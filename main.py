@@ -5,7 +5,7 @@ import tkinter as tk
 from tkinter import ttk
 
 from billing import BuyingTab, SellingTab
-# from products import ProductManagementTab
+from tableview import ProductViewTab
 from utils import *
 
 if __name__ == "__main__":
@@ -20,8 +20,9 @@ if __name__ == "__main__":
     tabs = ttk.Notebook(window)
     root_sell = SellingTab(tabs)
     root_buy = BuyingTab(tabs)
-    tabs.add(root_sell, text ="Bán hàng")
-    tabs.add(root_buy, text ="Nhập hàng")
-    # root_products = ProductManagementTab(tabs)
+    tabs.add(root_sell, text="Bán hàng")
+    tabs.add(root_buy, text="Nhập hàng")
+    root_products = ProductViewTab(tabs)
+    tabs.add(root_products, text="Sản phẩm")
     tabs.pack(expand = 1, fill ="both")
     window.mainloop()

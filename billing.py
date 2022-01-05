@@ -237,7 +237,7 @@ class AddItemForm(Form):
         # name, description, type, unit
         ("id", "Mã hàng", tk.StringVar, None),                      # Mã mặt hàng
         ("name", "Tên mặt hàng", (tk.StringVar, []), None),         # Tên mặt hàng
-        ("unit", "Đơn vị tính", (tk.StringVar, item_units), None),   # Đơn vị tính
+        ("unit", "Đơn vị tính", (tk.StringVar, item_units), None),  # Đơn vị tính
         ("price", "Đơn giá", tk.DoubleVar, "đồng"),                 # Đơn giá
         ("expiration_date", "Hạn sử dụng", Date, None),             # Hạn sử dụng
         ("quantity", "Số lượng", tk.IntVar, "$unit"),               # Số lượng
