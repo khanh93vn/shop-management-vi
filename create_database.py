@@ -17,7 +17,7 @@ if __name__ == "__main__":
             )""")
 
         # tạo bảng danh mục nhà cung cấp
-        c.execute("""CREATE TABLE providers (
+        c.execute("""CREATE TABLE suppliers (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 name TEXT,
                 phone TEXT,
@@ -57,7 +57,7 @@ if __name__ == "__main__":
         # tạo bảng kho (cập nhật liên tục)
         c.execute("""CREATE TABLE stock (
                 product_id INTEGER,
-                expiration_date INTEGER,  
+                expiration_date INTEGER,
                 quantity INTEGER,
                 PRIMARY KEY (product_id, expiration_date)
             )""")

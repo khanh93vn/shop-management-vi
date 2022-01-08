@@ -212,7 +212,7 @@ class BuyingInfoForm(Form):
     fields = [
         # name, description, type, unit
         ("date", "Ngày hóa đơn", Date, None),
-        ("provider", "Nhà cung cấp", (tk.StringVar, []), None),
+        ("supplier", "Nhà cung cấp", (tk.StringVar, []), None),
         ("phone", "Số điện thoại", tk.StringVar, None),
         ("note", "Ghi chú đơn hàng", Textbox, None),
     ]
@@ -341,13 +341,13 @@ class ItemView(ttk.LabelFrame):
 # tab nhập hàng
 class BuyingTab(BaseBillingTab):
     InfoForm = BuyingInfoForm
-    partners_table = "providers"
+    partners_table = "suppliers"
     is_selling = False
     
     def partner_check(self, cursor, partner_info):
-        provider_name, phone = partner_info
+        supplier_name, phone = partner_info
         
-        if not provider_name:
+        if not supplier_name:
             # Nếu bỏ trống
             msgBox = messagebox.askquestion("Thiếu thông tin",
                                             "Nhập mà không có thông tin nhà cung cấp?",
@@ -359,8 +359,8 @@ class BuyingTab(BaseBillingTab):
                 return
         else:
             # kiểm tra xem nhà cung cấp đã được lưu chưa
-            ret = create_if_not_exists(cursor, table="providers", searchby="name",
-                                       valuesdict={"name": provider_name, "phone": phone, "note": ""},
+            ret = create_if_not_exists(cursor, table="suppliers", searchby="name",
+                                       valuesdict={"name": supplier_name, "phone": phone, "note": ""},
                                        prompt=("Nhà cung cấp", "Lưu hóa đơn"))
             if ret is not None:
                 self.update_partners()
@@ -369,15 +369,15 @@ class BuyingTab(BaseBillingTab):
                 return
     
     def update_partners(self):
-        provider_names = get_names_from_table("providers")
-        self.info_form.providerE["values"] = provider_names
+        supplier_names = get_names_from_table("suppliers")
+        self.info_form.supplierE["values"] = supplier_names
     
     def bind_partner_autofill_callback(self):
-        def fill_provider(event):
+        def fill_supplier(event):
             # kết nối với CSDL
             conn = db.connect(DATABASE)
             c = conn.cursor()
-            c.execute("SELECT * FROM providers WHERE name = (?)", (self.info_form.provider.get(),))
+            c.execute("SELECT * FROM suppliers WHERE name = (?)", (self.info_form.supplier.get(),))
             try:
                 id, name, phone, note = c.fetchone()
                 self.info_form.phone.set(phone)
@@ -386,7 +386,7 @@ class BuyingTab(BaseBillingTab):
                     raise e
             
             conn.close()
-        self.info_form.providerE.bind("<<ComboboxSelected>>", fill_provider)
+        self.info_form.supplierE.bind("<<ComboboxSelected>>", fill_supplier)
 
 
 # tab bán hàng

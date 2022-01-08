@@ -5,20 +5,11 @@ import sqlite3 as db
 from form import Form, Date, Textbox
 from utils import *
 
-class ProductViewTab(ttk.Frame):
-    table_name = "products"
-    sort_key = "name"
-    primary_keys = ("id",)
-    class ViewForm(Form):
-        frame_name = "Thông tin"
-        fields = [
-            # name, description, type, unit
-            ("id", "Mã số", tk.StringVar, None),
-            ("name", "Tên", tk.StringVar, None),
-            ("unit", "Đơn vị tính", (tk.StringVar, item_units), None),
-            ("price", "Đơn giá bán", tk.DoubleVar, None),
-            ("note", "Ghi chú", Textbox, None),
-        ]
+class BaseViewTab(ttk.Frame):
+    table_name = None
+    sort_key = None
+    primary_keys = (None,)
+    ViewForm = None
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         
@@ -148,3 +139,112 @@ class ItemView(ttk.LabelFrame):
         for index in self.table.get_children():
             yield self.table.item(index)["values"]
 
+
+class ProductViewTab(BaseViewTab):
+    table_name = "products"
+    sort_key = "name"
+    primary_keys = ("id",)
+    class ViewForm(Form):
+        frame_name = "Thông tin"
+        fields = [
+            # name, description, type, unit
+            ("id", "Mã số", tk.IntVar, None),
+            ("name", "Tên", tk.StringVar, None),
+            ("unit", "Đơn vị tính", (tk.StringVar, item_units), None),
+            ("price", "Đơn giá bán", tk.DoubleVar, None),
+            ("note", "Ghi chú", Textbox, None),
+        ]
+
+
+class ProductsViewTab(BaseViewTab):
+    table_name = "products"
+    sort_key = "name"
+    primary_keys = ("id",)
+    class ViewForm(Form):
+        frame_name = "Thông tin mặt hàng"
+        fields = [
+            # name, description, type, unit
+            ("id", "Mã số", tk.IntVar, None),
+            ("name", "Tên", tk.StringVar, None),
+            ("unit", "Đơn vị tính", (tk.StringVar, item_units), None),
+            ("price", "Đơn giá bán", tk.DoubleVar, "đồng"),
+            ("note", "Ghi chú", Textbox, None),
+        ]
+
+
+class SuppliersViewTab(BaseViewTab):
+    table_name = "suppliers"
+    sort_key = "name"
+    primary_keys = ("id",)
+    class ViewForm(Form):
+        frame_name = "Thông tin nhà cung cấp"
+        fields = [
+            # name, description, type, unit
+            ("id", "Mã số", tk.IntVar, None),
+            ("name", "Tên nhà cung cấp", tk.StringVar, None),
+            ("phone", "Số điện thoại", tk.StringVar, None),
+            ("note", "Ghi chú", Textbox, None),
+        ]
+
+
+class CustomersViewTab(BaseViewTab):
+    table_name = "customers"
+    sort_key = "name"
+    primary_keys = ("id",)
+    class ViewForm(Form):
+        frame_name = "Thông tin nhà cung cấp"
+        fields = [
+            # name, description, type, unit
+            ("id", "Mã số", tk.IntVar, None),
+            ("name", "Tên khách hàng", tk.StringVar, None),
+            ("birth_year", "Năm sinh", tk.IntVar, None),
+            ("phone", "Số điện thoại", tk.StringVar, None),
+            ("email", "E-mail", tk.StringVar, None),
+            ("note", "Ghi chú", Textbox, None),
+        ]
+
+class BillsViewTab(BaseViewTab):
+    table_name = "bills"
+    sort_key = "id"
+    primary_keys = ("id",)
+    class ViewForm(Form):
+        frame_name = "Thông tin hóa đơn"
+        fields = [
+            # name, description, type, unit
+            ("id", "Mã số", tk.IntVar, None),
+            ("date", "Ngày hóa đơn", Date, None),
+            ("partner_id", "Mã đối tác", tk.IntVar, None),
+            ("is_selling", "Hóa đơn xuất (chứ không phải nhập)", tk.BooleanVar, None),
+            ("batch_count", "Số lô hàng", tk.IntVar, None),
+            ("note", "Ghi chú", Textbox, None),
+        ]
+
+class BatchesViewTab(BaseViewTab):
+    table_name = "batches"
+    sort_key = "id"
+    primary_keys = ("id",)
+    class ViewForm(Form):
+        frame_name = "Thông tin lô (hóa đơn)"
+        fields = [
+            # name, description, type, unit
+            ("id", "Mã số", tk.IntVar, None),
+            ("bill_id", "Mã hóa đơn", tk.IntVar, None),
+            ("product_id", "Mã hàng hóa", tk.IntVar, None),
+            ("expiration_date", "Hạn sử dụng", tk.IntVar, None),
+            ("quantity", "Số lượng", tk.IntVar, None),
+            ("price", "Đơn giá", tk.DoubleVar, "đồng"),
+        ]
+
+
+class StockViewTab(BaseViewTab):
+    table_name = "stock"
+    sort_key = "product_id"
+    primary_keys = ("product_id", "expiration_date")
+    class ViewForm(Form):
+        frame_name = "Thông tin hàng hóa trong kho"
+        fields = [
+            # name, description, type, unit
+            ("product_id", "Mã hàng hóa", tk.IntVar, None),
+            ("expiration_date", "Hạn sử dụng", tk.IntVar, None),
+            ("quantity", "Số lượng", tk.IntVar, None),
+        ]

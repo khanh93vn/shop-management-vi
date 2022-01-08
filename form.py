@@ -13,7 +13,16 @@ class Textbox(tk.Text):
         self.insert(1.0, txt)
 
 class Date(DateEntry):
-    pass
+    def get(self):
+        return date2ts(super().get())
+    
+    def set(self, timestamp):
+        try:
+            self.set_date(ts2date(int(timestamp)))
+        except TypeError as e:
+            print(ts2date(int(timestamp)))
+            raise SystemError("idk")
+            
 
 class Form(ttk.LabelFrame):
     def __init__(self, *args, weights=(5, 10, 3), **kwargs):
