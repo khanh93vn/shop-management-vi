@@ -37,6 +37,9 @@ def ts2date(ts):
         return '--'
     return datetime.utcfromtimestamp(ts*86400 + 18000).strftime(dtformat)
 
+def current_year():
+    return date.today().year
+
 # datatype conversion from strings
 def dataconv(typ):
     if typ == tk.IntVar:

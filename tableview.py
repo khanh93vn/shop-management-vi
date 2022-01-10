@@ -33,7 +33,8 @@ class BaseViewTab(ttk.Frame):
     
     def update_item(self):
         # lấy dữ liệu từ form
-        data = {key:value for value, (key, *_) in zip(self.form.get_data(), self.ViewForm.fields)}
+        data = {key:(value if typ != Date else date2ts(value))
+                for value, (key, _, typ, *_) in zip(self.form.get_data(), self.ViewForm.fields)}
         fields = ','.join(data)
         place_holders = ','.join(['?']*len(self.ViewForm.fields))
         primary_keys = ','.join(self.primary_keys)
@@ -66,6 +67,10 @@ class BaseViewTab(ttk.Frame):
 
         # ngắt kết nối với CSDL
         conn.close()
+        
+        data = [[value if typ != Date else ts2date(value)
+                 for value, (_, _, typ, *_) in zip(datum, self.ViewForm.fields)]
+                for datum in data]
         
         self.item_view.clear_items()
         self.item_view.add_items(data)
@@ -203,6 +208,7 @@ class CustomersViewTab(BaseViewTab):
             ("note", "Ghi chú", Textbox, None),
         ]
 
+
 class BillsViewTab(BaseViewTab):
     table_name = "bills"
     sort_key = "id"
@@ -218,6 +224,11 @@ class BillsViewTab(BaseViewTab):
             ("batch_count", "Số lô hàng", tk.IntVar, None),
             ("note", "Ghi chú", Textbox, None),
         ]
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.form.is_sellingE.config(state='disabled')
+        self.form.batch_countE.config(state='readonly')
+
 
 class BatchesViewTab(BaseViewTab):
     table_name = "batches"
