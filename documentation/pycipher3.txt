@@ -1,0 +1,1 @@
+https://stackoverflow.com/questions/61718992/install-pysqlcipher3-windows

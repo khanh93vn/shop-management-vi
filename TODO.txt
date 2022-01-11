@@ -1,3 +1,7 @@
+- Mã hóa CSDL https://stackoverflow.com/questions/61718992/install-pysqlcipher3-windows
+	- Cài đặt Visual Studio 2022
+	- Copy thư mục từ OpenSSL sang VS
+	
 - Thêm tab tra cứu CSDL và cập nhật CSDL bằng file excel
 	- Tạo class DataView
 		- Sửa Date và những chỗ liên quan
@@ -6,40 +10,5 @@
 - Hoàn thành phần nhập hóa đơn
 	- Thêm tab bán hàng
 		- Cập nhật đơn giá bán
-- Cơ sở dũ liệu và lưu trữ (sắp xếp dựa vào cột x)
-	- Bảng danh mục hàng (cập nhật khi có yêu cầu)
-		x Mã số
-		- Tên
-		- Đơn giá bán
-		- Đơn vị
-	- Danh mục nhà cung cấp
-		x Mã số
-		- Tên
-		- Số điện thoại
-		- Ghi chú
-	- Danh sách khách hàng
-		x Mã số
-		- Tên
-		- Năm sinh
-		- Số điện thoại
-		- email
-		- Ghi chú
-	- Lưu trữ hóa đơn
-		x Mã số
-		- Ngày nhập/ngày bán
-		- Mã số nhà cung cấp/khách hàng
-		- Bán hay mua (y/n)
-		- Danh sách hàng
-			- Mã số hàng
-			- Số lượng
-			- Giá mua
-			- Chiết khấu
-			- Thuế VAT (y/n)
-		- Ghi chú
-	- Kho (phải cập nhật liên tục)
-		x Mã hàng
-		x Ngày hết hạn sử dựng
-		x Đơn giá mua (?)
-		- Số lượng
 
 - Age update interrupts

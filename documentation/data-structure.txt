@@ -1,0 +1,34 @@
+- Bảng danh mục hàng (cập nhật khi có yêu cầu)
+	x Mã số
+	- Tên
+	- Đơn giá bán
+	- Đơn vị
+- Danh mục nhà cung cấp
+	x Mã số
+	- Tên
+	- Số điện thoại
+	- Ghi chú
+- Danh sách khách hàng
+	x Mã số
+	- Tên
+	- Năm sinh
+	- Số điện thoại
+	- email
+	- Ghi chú
+- Lưu trữ hóa đơn
+	x Mã số
+	- Ngày nhập/ngày bán
+	- Mã số nhà cung cấp/khách hàng
+	- Bán hay mua (y/n)
+	- Danh sách hàng
+		- Mã số hàng
+		- Số lượng
+		- Giá mua
+		- Chiết khấu
+		- Thuế VAT (y/n)
+	- Ghi chú
+- Kho (phải cập nhật liên tục)
+	x Mã hàng
+	x Ngày hết hạn sử dựng
+	x Đơn giá mua (?)
+	- Số lượng
