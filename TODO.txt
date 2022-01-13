@@ -1,6 +1,7 @@
 - Mã hóa CSDL https://stackoverflow.com/questions/61718992/install-pysqlcipher3-windows
-	- Cài đặt Visual Studio 2022
-	- Copy thư mục từ OpenSSL sang VS
+	- Hoàn thành class Database (hoàn thành list_tables, đổi tên...)
+	- Sửa lại toàn bộ code cho tương thích
+	- Đổi tên DATABASE thành DATABASE_PATH
 	
 - Thêm tab tra cứu CSDL và cập nhật CSDL bằng file excel
 	- Tạo class DataView
