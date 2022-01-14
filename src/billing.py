@@ -5,11 +5,11 @@ BaseBillingTab: base object for billing operations (selling and buying)
 """
 
 import tkinter as tk
-import sqlite3 as db
 from tkinter import ttk
 from tkcalendar import DateEntry
 from tkinter import messagebox
 
+from database import MedStoreDatabase
 from form import Textbox, Date, Form
 from utils import *
 
@@ -60,19 +60,16 @@ class BaseBillingTab(ttk.Frame):
             return
         
         # kết nối với CSDL
-        conn = db.connect(DATABASE)
-        c = conn.cursor()
+        db = MedStoreDatabase(DATABASE_PATH)
             
         # kiểm tra xem sản phẩm đã có trong danh mục chưa
-        ret = create_if_not_exists(c, table="products", searchby="id",
+        ret = create_if_not_exists(db, table="products", searchby="id",
                                    valuesdict={"id": product_id, "name": product_name, "unit": unit},
                                    prompt=("Sản phẩm", "Thêm sản phẩm"))
         if ret is not None:
             product_id, product_name, unit, _, note = ret
             self.update_products()
         else:
-            # ngắt kết nối với CSDL trước khi thoát
-            conn.close()
             return
 
         conn.commit()
@@ -93,7 +90,7 @@ class BaseBillingTab(ttk.Frame):
             return
         
         # kết nối với CSDL
-        conn = db.connect(DATABASE)
+        conn = db.connect(DATABASE_PATH)
         c = conn.cursor()
         
         # kiểm tra ô tên nhà cung cấp/khách hàng
@@ -188,7 +185,7 @@ class BaseBillingTab(ttk.Frame):
     def bind_product_autofill_callback(self):
         def callback_fill_product(key, var):
             # kết nối với CSDL
-            conn = db.connect(DATABASE)
+            conn = db.connect(DATABASE_PATH)
             c = conn.cursor()
             c.execute(f"SELECT * FROM products WHERE {key} = (?)", (var.get(),))
             try:
@@ -375,7 +372,7 @@ class BuyingTab(BaseBillingTab):
     def bind_partner_autofill_callback(self):
         def fill_supplier(event):
             # kết nối với CSDL
-            conn = db.connect(DATABASE)
+            conn = db.connect(DATABASE_PATH)
             c = conn.cursor()
             c.execute("SELECT * FROM suppliers WHERE name = (?)", (self.info_form.supplier.get(),))
             try:
@@ -428,7 +425,7 @@ class SellingTab(BaseBillingTab):
         self.info_form.customerE["values"] = customer_names
     
     def update_products(self):
-        conn = db.connect(DATABASE)
+        conn = db.connect(DATABASE_PATH)
         c = conn.cursor()
         
         # Lất dữ liệu tên, hạn sd, số lượng tồn kho
@@ -447,7 +444,7 @@ class SellingTab(BaseBillingTab):
     def bind_partner_autofill_callback(self):
         def fill_customer(event):
             # kết nối với CSDL
-            conn = db.connect(DATABASE)
+            conn = db.connect(DATABASE_PATH)
             c = conn.cursor()
             c.execute("SELECT * FROM customers WHERE name = (?)", (self.info_form.customer.get(),))
             try:
@@ -466,7 +463,7 @@ class SellingTab(BaseBillingTab):
         # Định nghĩa callback cho mục điền sản phẩm theo mã
         def callback_fill_product_from_id(var, index, mode):
             # kết nối với CSDL
-            conn = db.connect(DATABASE)
+            conn = db.connect(DATABASE_PATH)
             c = conn.cursor()
             c.execute("SELECT * FROM products WHERE id = (?)", (self.add_item_form.id.get(),))
             try:
@@ -487,7 +484,7 @@ class SellingTab(BaseBillingTab):
             name, _, exp_date = self.add_item_form.name.get().split('|')
             exp_ts = date2ts(exp_date.split(':')[-1][1:])
             # kết nối với CSDL
-            conn = db.connect(DATABASE)
+            conn = db.connect(DATABASE_PATH)
             c = conn.cursor()
             c.execute("""SELECT stock.product_id, products.name, products.unit, products.price, stock.expiration_date
                          FROM stock
@@ -543,7 +540,7 @@ def create_if_not_exists(cursor, table, searchby, valuesdict, prompt=None): # pr
         return cursor.fetchone()
 
 def get_names_from_table(table, pattern='%'):
-    conn = db.connect(DATABASE)
+    conn = db.connect(DATABASE_PATH)
     c = conn.cursor()
     
     c.execute(f"SELECT name FROM {table} WHERE name like ? ORDER BY name", (pattern,))

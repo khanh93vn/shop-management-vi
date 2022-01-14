@@ -5,7 +5,7 @@ from datetime import date, datetime
 from time import mktime
 
 # đường dẫn CSDL
-DATABASE = "data.db"
+DATABASE_PATH = "data.db"
 
 # geometries
 RESOLUTION = [ctypes.windll.user32.GetSystemMetrics(i) for i in (0, 1)]
@@ -27,6 +27,9 @@ dtformat = "%d/%m/%Y"
 def today():
     return date.today().strftime(dtformat)
 
+def current_year():
+    return date.today().year
+
 def date2ts(s):
     if s == '--':
         return 0
@@ -36,9 +39,6 @@ def ts2date(ts):
     if ts == 0:
         return '--'
     return datetime.utcfromtimestamp(ts*86400 + 18000).strftime(dtformat)
-
-def current_year():
-    return date.today().year
 
 # datatype conversion from strings
 def dataconv(typ):

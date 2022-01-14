@@ -1,7 +1,13 @@
 - Mã hóa CSDL https://stackoverflow.com/questions/61718992/install-pysqlcipher3-windows
-	- Hoàn thành class Database (hoàn thành list_tables, đổi tên...)
+	- Viết test cho MedStoreDatabase
+		- Thêm phần kiểm tra các cột của bảng
+		- Kiểm tra chức năng báo lỗi khi bảng đã được tạo
 	- Sửa lại toàn bộ code cho tương thích
-	- Đổi tên DATABASE thành DATABASE_PATH
+		- Biểu diễn cơ sở dữ liệu bằng hình ảnh
+		- Nghĩ cách tích hợp chức năng quản lý dữ liệu
+			- Các dữ liệu sản phẩm, khách hàng
+			- Hóa đơn
+			- Kho
 	
 - Thêm tab tra cứu CSDL và cập nhật CSDL bằng file excel
 	- Tạo class DataView
@@ -11,5 +17,3 @@
 - Hoàn thành phần nhập hóa đơn
 	- Thêm tab bán hàng
 		- Cập nhật đơn giá bán
-
-- Age update interrupts
