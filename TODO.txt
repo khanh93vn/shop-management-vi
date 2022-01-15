@@ -1,19 +1,10 @@
-- Mã hóa CSDL https://stackoverflow.com/questions/61718992/install-pysqlcipher3-windows
-	- Viết test cho MedStoreDatabase
-		- Thêm phần kiểm tra các cột của bảng
-		- Kiểm tra chức năng báo lỗi khi bảng đã được tạo
-	- Sửa lại toàn bộ code cho tương thích
-		- Biểu diễn cơ sở dữ liệu bằng hình ảnh
-		- Nghĩ cách tích hợp chức năng quản lý dữ liệu
-			- Các dữ liệu sản phẩm, khách hàng
-			- Hóa đơn
-			- Kho
+- Reverse engineer PharmaDeluxe database schema
+	- Biểu diễn cơ sở dữ liệu bằng hình ảnh
+	- Thiết kế hệ thống đối tượng cho phần mềm
+	- Nghĩ cách tích hợp chức năng quản lý dữ liệu
+		- Các dữ liệu sản phẩm, khách hàng
+		- Hóa đơn
+		- Kho
+		- Địa chỉ
+		- Quốc gia (ISO 3166)
 	
-- Thêm tab tra cứu CSDL và cập nhật CSDL bằng file excel
-	- Tạo class DataView
-		- Sửa Date và những chỗ liên quan
-		- Thêm các trường dữ liệu của bảng khác nếu cần
-		- Có thể cho phép thêm (tùy bảng)
-- Hoàn thành phần nhập hóa đơn
-	- Thêm tab bán hàng
-		- Cập nhật đơn giá bán
