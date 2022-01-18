@@ -9,7 +9,7 @@ from tkinter import ttk
 from tkcalendar import DateEntry
 from tkinter import messagebox
 
-from database import MedStoreDatabase
+from pysqlcipher3 import dbapi2 as db
 from form import Textbox, Date, Form
 from utils import *
 
@@ -60,10 +60,12 @@ class BaseBillingTab(ttk.Frame):
             return
         
         # kết nối với CSDL
-        db = MedStoreDatabase(DATABASE_PATH)
+        conn = db.connect(DATABASE_PATH)
+        c = conn.cursor()
+        c.execute(DATABASE_PRAGMA_KEY)
             
         # kiểm tra xem sản phẩm đã có trong danh mục chưa
-        ret = create_if_not_exists(db, table="products", searchby="id",
+        ret = create_if_not_exists(c, table="products", searchby="id",
                                    valuesdict={"id": product_id, "name": product_name, "unit": unit},
                                    prompt=("Sản phẩm", "Thêm sản phẩm"))
         if ret is not None:
@@ -92,7 +94,7 @@ class BaseBillingTab(ttk.Frame):
         # kết nối với CSDL
         conn = db.connect(DATABASE_PATH)
         c = conn.cursor()
-        
+        c.execute(DATABASE_PRAGMA_KEY)
         # kiểm tra ô tên nhà cung cấp/khách hàng
         ret = self.partner_check(c, partner_info)
         if ret is not None:
@@ -187,6 +189,7 @@ class BaseBillingTab(ttk.Frame):
             # kết nối với CSDL
             conn = db.connect(DATABASE_PATH)
             c = conn.cursor()
+            c.execute(DATABASE_PRAGMA_KEY)
             c.execute(f"SELECT * FROM products WHERE {key} = (?)", (var.get(),))
             try:
                 product_id, product_name, unit, price, note = c.fetchone()
@@ -374,6 +377,7 @@ class BuyingTab(BaseBillingTab):
             # kết nối với CSDL
             conn = db.connect(DATABASE_PATH)
             c = conn.cursor()
+            c.execute(DATABASE_PRAGMA_KEY)
             c.execute("SELECT * FROM suppliers WHERE name = (?)", (self.info_form.supplier.get(),))
             try:
                 id, name, phone, note = c.fetchone()
@@ -427,7 +431,7 @@ class SellingTab(BaseBillingTab):
     def update_products(self):
         conn = db.connect(DATABASE_PATH)
         c = conn.cursor()
-        
+        c.execute(DATABASE_PRAGMA_KEY)
         # Lất dữ liệu tên, hạn sd, số lượng tồn kho
         c.execute("""SELECT products.name, products.unit, stock.expiration_date, stock.quantity FROM stock
                      JOIN products on products.id = stock.product_id
@@ -446,6 +450,7 @@ class SellingTab(BaseBillingTab):
             # kết nối với CSDL
             conn = db.connect(DATABASE_PATH)
             c = conn.cursor()
+            c.execute(DATABASE_PRAGMA_KEY)
             c.execute("SELECT * FROM customers WHERE name = (?)", (self.info_form.customer.get(),))
             try:
                 id, name, birth_year, phone, email, note = c.fetchone()
@@ -465,6 +470,7 @@ class SellingTab(BaseBillingTab):
             # kết nối với CSDL
             conn = db.connect(DATABASE_PATH)
             c = conn.cursor()
+            c.execute(DATABASE_PRAGMA_KEY)
             c.execute("SELECT * FROM products WHERE id = (?)", (self.add_item_form.id.get(),))
             try:
                 product_id, product_name, unit, price, note = c.fetchone()
@@ -486,6 +492,7 @@ class SellingTab(BaseBillingTab):
             # kết nối với CSDL
             conn = db.connect(DATABASE_PATH)
             c = conn.cursor()
+            c.execute(DATABASE_PRAGMA_KEY)
             c.execute("""SELECT stock.product_id, products.name, products.unit, products.price, stock.expiration_date
                          FROM stock
                          JOIN products on products.id = stock.product_id
@@ -542,7 +549,7 @@ def create_if_not_exists(cursor, table, searchby, valuesdict, prompt=None): # pr
 def get_names_from_table(table, pattern='%'):
     conn = db.connect(DATABASE_PATH)
     c = conn.cursor()
-    
+    c.execute(DATABASE_PRAGMA_KEY)
     c.execute(f"SELECT name FROM {table} WHERE name like ? ORDER BY name", (pattern,))
     fetched = c.fetchall()
     

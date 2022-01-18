@@ -5,10 +5,7 @@ https://stackoverflow.com/questions/50381616/how-to-connect-to-a-protected-sqlit
 
 import sys
 from pysqlcipher3 import dbapi2 as sqlite3
-if __name__ == "__main__":
-    from utils import DATABASE_PATH
-else:
-    from .utils import DATABASE_PATH
+from utils import DATABASE_PATH, DATABASE_PRAGMA_KEY
 
 
 class Database(object):
@@ -19,7 +16,7 @@ class Database(object):
     def connDB(self):
         self.conn = sqlite3.connect(self.dbname)
         self.cursor = self.conn.cursor()
-        self.cursor.execute("PRAGMA key='WzW7cVMm30453118'")
+        self.cursor.execute(DATABASE_PRAGMA_KEY)
 
     def createDB(self):
         self.connDB()
@@ -46,26 +43,35 @@ class Database(object):
             self.conn.close()
             raise e
 
-    def queryDB(self, sql):
+    def queryDB(self, sql, *args, commit=True):
         self.connDB()
         
         try:
-            self.cursor.execute(sql)
+            self.cursor.execute(sql, *args)
 
             if sql[0:6].lower() == 'select':
                 result = self.cursor.fetchall()
                 self.conn.close()
                 return result
             else:
-                self.conn.commit()
-                self.conn.close()
+                if commit:
+                    self.conn.commit()
+                    self.conn.close()
         
         except Exception as e:
             self.conn.close()
             raise e
     
+    def closeDB(self, commit=True):
+        if commit:
+            self.conn.commit()
+        self.conn.close()
+    
     def list_tables(self):
         return next(zip(*self.queryDB(self.table_names_query)))
+    
+    def get_last_item(self, table):
+        return queryDB('SELECT seq FROM sqlite_sequence WHERE name = "{table}"')
 
 
 class MedStoreDatabase(Database):
@@ -132,8 +138,33 @@ class MedStoreDatabase(Database):
                 print("Database already exists!")
             else:
                 raise e
+
+    def get_names_from_table(self, table, pattern='%'):
+        fetched = self.queryDB(f"SELECT name FROM {table} WHERE name like ? ORDER BY name", (pattern,))
+        
+        return [name for name, in fetched]
     
-    
+    def insert_if_not_exists(self, table, searchby,
+                             valuesdict, commit=False):
+        # xây dựng chuỗi truy vấn
+        if isinstance(searchby, str):
+            searchby = searchby,
+        placeholder = ','.join(['?']*len(searchby))
+        searchvalues = tuple(valuesdict[k] for k in searchby)
+        searchby = ','.join(searchby)
+        query = "SELECT * FROM {} WHERE ({}) = ({})".format(table, searchby, placeholder)
+        
+        data = self.queryDB(query, searchvalues)
+        if len(data) > 1:
+            raise ValueError(f"duplicate {table}")
+        elif len(data) == 1:
+            return data[0]
+        else:
+            self.queryDB(f"""INSERT INTO {table} ({','.join(valuesdict)})
+                                VALUES ({','.join(['?']*len(valuesdict))})""",
+                            tuple(valuesdict.values()),
+                            commit=commit)
+            return self.queryDB(query, searchvalues)
             
 if __name__ == "__main__":
     if len(sys.argv[1]) > 1:

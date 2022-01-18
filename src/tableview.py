@@ -1,6 +1,6 @@
 import tkinter as tk
 import tkinter.ttk as ttk
-import sqlite3 as db
+from pysqlcipher3 import dbapi2 as db
 
 from form import Form, Date, Textbox
 from utils import *
@@ -40,8 +40,9 @@ class BaseViewTab(ttk.Frame):
         primary_keys = ','.join(self.primary_keys)
         
         # cập nhật mẫu dữ liệu
-        conn = db.connect(DATABASE)
+        conn = db.connect(DATABASE_PATH)
         c = conn.cursor()
+        c.execute(DATABASE_PRAGMA_KEY)
         query_values = (*data.values(), *(data[key] for key in self.primary_keys))
         c.execute(f"""UPDATE {self.table_name}
                       SET ({fields}) = ({place_holders})
@@ -59,9 +60,9 @@ class BaseViewTab(ttk.Frame):
     
     def reload_data(self):
         # kết nối với CSDL
-        conn = db.connect(DATABASE)
+        conn = db.connect(DATABASE_PATH)
         c = conn.cursor()
-
+        c.execute(DATABASE_PRAGMA_KEY)
         c.execute(f"SELECT * FROM {self.table_name} ORDER BY {self.sort_key}")
         data = c.fetchall()
 
