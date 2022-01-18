@@ -132,10 +132,12 @@ class MedStoreDatabase(Database):
                 print("Database already exists!")
             else:
                 raise e
+    
+    
             
 if __name__ == "__main__":
     if len(sys.argv[1]) > 1:
         if(sys.argv[1]) == "create":    # khởi tạo
             db = MedStoreDatabase(DATABASE_PATH)
             db.createDB()
-        # elif 
+        

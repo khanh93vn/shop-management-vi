@@ -1,5 +1,6 @@
 - Reverse engineer PharmaDeluxe database schema
-	- Biểu diễn cơ sở dữ liệu bằng hình ảnh
+	v Biểu diễn cơ sở dữ liệu bằng hình ảnh
+	- Phục hồi lại phiên bản làm việc tạm thời
 	- Thiết kế hệ thống đối tượng cho phần mềm
 	- Nghĩ cách tích hợp chức năng quản lý dữ liệu
 		- Các dữ liệu sản phẩm, khách hàng
