@@ -1,11 +1,39 @@
 - Reverse engineer PharmaDeluxe database schema
 	v Biểu diễn cơ sở dữ liệu bằng hình ảnh
-	- Phục hồi lại phiên bản làm việc tạm thời
-	- Thiết kế hệ thống đối tượng cho phần mềm
+	v Phục hồi lại phiên bản làm việc tạm thời
 	- Nghĩ cách tích hợp chức năng quản lý dữ liệu
-		- Các dữ liệu sản phẩm, khách hàng
-		- Hóa đơn
-		- Kho
-		- Địa chỉ
-		- Quốc gia (ISO 3166)
-	
+		- Danh mục
+			- Thêm mới
+				- Mở ra một cửa sổ mới
+				- Chứa các trường dữ liệu
+				- Nút thêm và nút hủy
+		- Các danh mục bao gồm
+			- Nhóm sản phẩm
+			- Nhóm nhà cung cấp
+			- Nhóm khách hàng
+			- Nhà sản xuất
+			- Nước sản xuất
+			- Đơn vị tính
+			- Hoạt chất
+			- Điều kiện bảo quản
+		- Các danh mục ẩn
+			- Loại sản phẩm
+				- Dược phẩm
+				- Vật tư y tế
+				- Hàng hóa khác
+			- Chuyên môn bác sĩ
+				- Chấn thương chỉnh hình
+				- Cơ xương khớp
+				- Da liễu
+				- Nha khoa
+				- Nhi
+				- Nội
+				- Răng hàm mặt
+				- Sản phụ khoa
+				- Tai mũi họng
+				- Thẩm mỹ
+			- Trình độ bác sĩ
+				- Bác sĩ
+				- Bác sĩ chuyên khoa I
+				- Bác sĩ chuyên khoa II
+	- Thiết kế hệ thống đối tượng cho phần mềm
