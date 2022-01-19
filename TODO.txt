@@ -7,16 +7,19 @@
 				- Mở ra một cửa sổ mới
 				- Chứa các trường dữ liệu
 				- Nút thêm và nút hủy
-		- Các danh mục bao gồm
-			- Nhóm sản phẩm
-			- Nhóm nhà cung cấp
-			- Nhóm khách hàng
-			- Nhà sản xuất
-			- Nước sản xuất
-			- Đơn vị tính
-			- Hoạt chất
-			- Điều kiện bảo quản
-		- Các danh mục ẩn
+				- Có thể có liên kết bảng phụ
+					- Ô danh sách liệt kê
+					- Form thêm mới
+					- Nút thêm, nút xóa
+			- Cửa sổ quản lý
+				- Ô danh sách liệt kê
+				- Có chức năng tìm kiếm
+				- Chức năng thêm mới
+				- Chức năng thêm xóa (?)
+					- Kiểm tra liên kết dữ liệu
+					- Nếu còn liên kết dữ liệu thì báo lỗi
+				- Chức năng chỉnh sửa
+		- Các danh mục liên kết ẩn
 			- Loại sản phẩm
 				- Dược phẩm
 				- Vật tư y tế
