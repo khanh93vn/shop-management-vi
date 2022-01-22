@@ -6,7 +6,7 @@ from time import mktime
 
 # đường dẫn CSDL
 DATABASE_PATH = "data.db"
-DATABASE_PRAGMA_KEY = "PRAGMA key='asDASfs3wGn12i2516jgk'"
+DATABASE_KEY = "asDASfs3wGn12i2516jgk"
 
 # geometries
 RESOLUTION = [ctypes.windll.user32.GetSystemMetrics(i) for i in (0, 1)]

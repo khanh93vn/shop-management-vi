@@ -1,42 +1,54 @@
-- Reverse engineer PharmaDeluxe database schema
-	v Biểu diễn cơ sở dữ liệu bằng hình ảnh
-	v Phục hồi lại phiên bản làm việc tạm thời
-	- Nghĩ cách tích hợp chức năng quản lý dữ liệu
-		- Danh mục
-			- Thêm mới
-				- Mở ra một cửa sổ mới
-				- Chứa các trường dữ liệu
-				- Nút thêm và nút hủy
-				- Có thể có liên kết bảng phụ
-					- Ô danh sách liệt kê
-					- Form thêm mới
-					- Nút thêm, nút xóa
-			- Cửa sổ quản lý
+v Biểu diễn cơ sở dữ liệu bằng hình ảnh
+v Phục hồi lại phiên bản làm việc tạm thời
+- Hoàn thành sqlalchemy tutorial
+	v Engines
+	v Sqlcipher
+	v Create table/class
+	v Sessions
+	v Rollback
+	v Queries
+	- Relationships
+	- Joins
+	- Eagerload
+	- Deleting
+	- Many to many
+- Nghĩ cách tích hợp chức năng quản lý dữ liệu
+	- Danh mục
+		- Thêm mới
+			- Mở ra một cửa sổ mới
+			- Chứa các trường dữ liệu
+			- Nút thêm và nút hủy
+			- Có thể có liên kết bảng phụ
 				- Ô danh sách liệt kê
-				- Có chức năng tìm kiếm
-				- Chức năng thêm mới
-				- Chức năng thêm xóa (?)
-					- Kiểm tra liên kết dữ liệu
-					- Nếu còn liên kết dữ liệu thì báo lỗi
-				- Chức năng chỉnh sửa
-		- Các danh mục liên kết ẩn
-			- Loại sản phẩm
-				- Dược phẩm
-				- Vật tư y tế
-				- Hàng hóa khác
-			- Chuyên môn bác sĩ
-				- Chấn thương chỉnh hình
-				- Cơ xương khớp
-				- Da liễu
-				- Nha khoa
-				- Nhi
-				- Nội
-				- Răng hàm mặt
-				- Sản phụ khoa
-				- Tai mũi họng
-				- Thẩm mỹ
-			- Trình độ bác sĩ
-				- Bác sĩ
-				- Bác sĩ chuyên khoa I
-				- Bác sĩ chuyên khoa II
-	- Thiết kế hệ thống đối tượng cho phần mềm
+				- Form thêm mới
+				- Nút thêm, nút xóa
+		- Cửa sổ quản lý
+			- Ô danh sách liệt kê
+			- Có chức năng tìm kiếm
+			- Chức năng thêm mới
+			- Chức năng thêm xóa (?)
+				- Kiểm tra liên kết dữ liệu
+				- Nếu còn liên kết dữ liệu thì báo lỗi
+			- Chức năng chỉnh sửa
+	- Các danh mục liên kết ẩn
+		- Loại sản phẩm
+			- Dược phẩm
+			- Vật tư y tế
+			- Hàng hóa khác
+		- Chuyên môn bác sĩ
+			- Chấn thương chỉnh hình
+			- Cơ xương khớp
+			- Da liễu
+			- Nha khoa
+			- Nhi
+			- Nội
+			- Răng hàm mặt
+			- Sản phụ khoa
+			- Tai mũi họng
+			- Thẩm mỹ
+		- Trình độ bác sĩ
+			- Bác sĩ
+			- Bác sĩ chuyên khoa I
+			- Bác sĩ chuyên khoa II
+- Thiết kế hệ thống đối tượng cho phần mềm
+	- dataclass cho mỗi bảng
