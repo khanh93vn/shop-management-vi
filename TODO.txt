@@ -1,18 +1,20 @@
 v Biểu diễn cơ sở dữ liệu bằng hình ảnh
 v Phục hồi lại phiên bản làm việc tạm thời
-- Hoàn thành sqlalchemy tutorial
-	v Engines
-	v Sqlcipher
-	v Create table/class
-	v Sessions
-	v Rollback
-	v Queries
-	- Relationships
-	- Joins
-	- Eagerload
-	- Deleting
-	- Many to many
-- Nghĩ cách tích hợp chức năng quản lý dữ liệu
+v Hoàn thành sqlalchemy tutorial
+- Thiết kế hệ thống đối tượng cho phần mềm
+	- Suy nghĩ cách sắp xếp các lớp đối tượng
+		- Data: liên kết trực tiếp với CSDL
+		- DataManager: Backend việc quản lý dữ liệu
+			- Mỗi lớp DataManager làm việc với 1 hoặc nhiều lớp Data, tùy theo các điều kiện bên dưới
+			- Chức năng cơ bản: Thêm, sửa, xóa, tìm kiếm
+			- Bảng đặc biệt: bills (suy xét lại xem còn bảng đặc biệt nào không)
+			- Nghĩ cách quản lý các tags (ví dụ như product_ingredients, bill_details)
+			- Thiết kế form
+				- Các tags
+	- Suy nghĩ làm giao diện
+
+
+- Ghi chú: Giao diện quản lý
 	- Danh mục
 		- Thêm mới
 			- Mở ra một cửa sổ mới
@@ -50,5 +52,3 @@ v Phục hồi lại phiên bản làm việc tạm thời
 			- Bác sĩ
 			- Bác sĩ chuyên khoa I
 			- Bác sĩ chuyên khoa II
-- Thiết kế hệ thống đối tượng cho phần mềm
-	- dataclass cho mỗi bảng
