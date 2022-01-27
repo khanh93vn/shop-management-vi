@@ -2,17 +2,22 @@ v Biểu diễn cơ sở dữ liệu bằng hình ảnh
 v Phục hồi lại phiên bản làm việc tạm thời
 v Hoàn thành sqlalchemy tutorial
 - Thiết kế hệ thống đối tượng cho phần mềm
-	- Suy nghĩ cách sắp xếp các lớp đối tượng
-		- Data: liên kết trực tiếp với CSDL
-		- DataManager: Backend việc quản lý dữ liệu
-			- Mỗi lớp DataManager làm việc với 1 hoặc nhiều lớp Data, tùy theo các điều kiện bên dưới
-			- Chức năng cơ bản: Thêm, sửa, xóa, tìm kiếm
-			- Bảng đặc biệt: bills (suy xét lại xem còn bảng đặc biệt nào không)
-			- Nghĩ cách quản lý các tags (ví dụ như product_ingredients, bill_details)
-			- Thiết kế form
-				- Các tags
+	v Suy nghĩ cách sắp xếp các lớp đối tượng
+		v SQL: liên kết trực tiếp với CSDL
+		v DataManager: Backend việc quản lý dữ liệu
+			v Mỗi lớp DataManager làm việc với 1 hoặc nhiều lớp Data, tùy theo các điều kiện bên dưới
+			v Chức năng cơ bản: Thêm, sửa, xóa, tìm kiếm
+			v Bảng đặc biệt: bills (suy xét lại xem còn bảng đặc biệt nào không)
+			v Nghĩ cách quản lý các tags (ví dụ như product_ingredients, bill_details)
+			v Thiết kế form
+				v Các tags
+	- Tạo Generator cho bảng mới
+		- Tạo thử bảng Users
+			v sql
+			v Test sql
+			- manager
+			- Test manager
 	- Suy nghĩ làm giao diện
-
 
 - Ghi chú: Giao diện quản lý
 	- Danh mục
