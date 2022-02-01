@@ -1,5 +1,8 @@
+from .sql import User
 
 class UsersManager:
+    data_class = User
+    
     def __init__(self, session):
         self.session = session
     
