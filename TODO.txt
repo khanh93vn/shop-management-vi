@@ -15,8 +15,29 @@ v Hoàn thành sqlalchemy tutorial
 		- Tạo thử bảng Users
 			v sql
 			v Test sql
-			- manager
 			- Test manager
+				v Kiểm tra scope của "fixture"
+				- search()
+					- empty
+					- one
+					- many
+					- raise
+				- add_new()
+					- tuple
+					- dict
+					- raise
+				- get_row()
+				- delete()
+				- update()
+				- Sửa lỗi "fixture" không xóa được file khi test gặp lỗi
+			- manager
+				- search()
+				- add_new()
+				- get_row()
+				- delete()
+				- update()
+				- Chuyển code sang base class
+			- Nghĩ cách làm generator
 	- Suy nghĩ làm giao diện
 
 - Ghi chú: Giao diện quản lý
